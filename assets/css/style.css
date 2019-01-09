@@ -1,0 +1,17 @@
+html{
+    padding: 0;
+    margin: 0;
+}
+
+.containerDiv{
+    background: pink;
+    margin-top: 100px;
+    margin-left: 200px;
+    margin-right: 200px;
+    text-align: center;
+    font-family: 'Bubbler One', sans-serif;
+}
+
+#timer{
+
+}
