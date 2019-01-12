@@ -10,8 +10,23 @@ html{
     margin-right: 200px;
     text-align: center;
     font-family: 'Bubbler One', sans-serif;
+    padding: 40px;
 }
 
 #timer{
 
+}
+
+button{
+    border: none;
+    margin-top: 6px;
+    margin-bottom: 10px;
+    background: rgb(225, 240, 240);
+    border: 1px solid black;
+    width: 90%;
+    font-size: 22px;
+}
+h5{
+    font-size: 27px;
+    padding-bottom: 10px;
 }
