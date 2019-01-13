@@ -13,10 +13,6 @@ html{
     padding: 40px;
 }
 
-#timer{
-
-}
-
 button{
     border: none;
     margin-top: 6px;
@@ -29,4 +25,5 @@ button{
 h5{
     font-size: 27px;
     padding-bottom: 10px;
+    margin-top: 20px;
 }

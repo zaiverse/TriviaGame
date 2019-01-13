@@ -1,9 +1,17 @@
 //declare global variables
 var correctAnswers = 0;
 var wrongAnswers = 0;
+var unAnswered = 0;
 var currentQuestion = 0;
-var counter = 20;
+var counter = 16;
 
+    function startAgain(){
+        wrongAnswers = 0;
+        correctAnswers = 0;
+        unAnswered = 0;
+        currentQuestion = 0;
+        displayQuestion();
+    }
 //variable that stores questions, choices, and answers for the trivia
 var Questions = [
         {
@@ -36,25 +44,24 @@ var Questions = [
 
     //create a countdown timer (fix after you change change questions!!)
     function timer(){
-        setInterval(function(){
-            if(counter > 0){
-            $('#timer').text('Time remaining: ' + --counter);
-            }
-            if(counter <= 0){
-                alert("timesup")
-            }
-        }, 1000)
+        counter--;
+        $('#timer').text('Time remaining: ' + counter);
+        if(counter <= 0){
+            timesUp();
+        }  
     }
 
     function reset(){
         $("#questionDiv").empty();
         $('#answerChoices').empty();
+        $('#timer').empty();
     }
     
     //function for question display
     function displayQuestion(){
-        timer();
         reset();
+        
+        timeup = setInterval(timer, 1000);
         $('#questionDiv').append("<h5>" + Questions[this.currentQuestion].question + "</h5>");
         for(var i=0; i< Questions[this.currentQuestion].choices.length; i++){
             $('#answerChoices').append("<div><button class='answer-button' id='button' class='choiceButton' data-name='" + Questions[this.currentQuestion].choices[i]
@@ -64,6 +71,8 @@ var Questions = [
     
     //create function to iterate currentQuestion by one 
     function nextQuestion(){
+            clearInterval(timeup);
+            counter = 20;
             currentQuestion++;
             displayQuestion();
     }
@@ -71,19 +80,45 @@ var Questions = [
     function checkAnswer(event){
         if($(event.target).attr("data-name") === Questions[this.currentQuestion].correctAnswer){
             correctAnswers++;
-            console.log(correctAnswers);
-            nextQuestion();
+            console.log("correct: "+ correctAnswers);
         }else{
             wrongAnswers++;
-            console.log(wrongAnswers);
+            console.log("wrong: "+ wrongAnswers);
+        }
+
+        if(currentQuestion === Questions.length -1){
+            finishedTrivia();
+        }else{
+            nextQuestion();
         }
     }
-    function timesUp(){
 
+    function timesUp(){
+        clearInterval(timeup);
+        unAnswered++;
+        console.log("unanswered: "+ unAnswered);
+        reset();
+        $("#questionDiv").append("<div><h5>You ran out of time</h5></div>");
+        $("#answerChoices").append("<div><img src =' https://media1.tenor.com/images/b24064ceff4e1d27efb60616e628e273/tenor.gif?itemid=4757906'></div>");
+
+
+        if(currentQuestion === Questions.length -1){
+            setTimeout(finishedTrivia, 3000);
+        }else{
+            setTimeout(nextQuestion, 3000);
+        }
+        
     }
 
-    function userAnswer(){
+    function finishedTrivia(){
+        clearInterval(timeup);
+        reset();
+        $("#questionDiv").append("<div><h5>Congrats! You have completed the trivia</h5></div>");
+        $("#answerChoices").append("<div>Here are your results</div><div>Correct answers: " + correctAnswers + "</div><div>Wrong answers: " + wrongAnswers + "</div><div>Unanswered: " + unAnswered + "</div><div><button id='playAgain'>Play again</button></div>");
 
+        $("#playAgain").on("click", function(){
+            startAgain();
+        })
     }
 //check which button was clicked by the user and execute checkAnswer function
 $(document).on("click", "#button", function(event){
